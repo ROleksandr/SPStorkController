@@ -25,7 +25,7 @@ public enum SPStorkController {
     
     static public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if let controller = self.controller(for: scrollView) {
-            if let presentationController = controller.presentationController as? SPStorkPresentationController {
+            if let presentationController = self.presentationController(in: controller) {
                 let translation = -(scrollView.contentOffset.y + scrollView.contentInset.top)
                 if translation >= 0 {
                     if controller.isBeingPresented { return }
