@@ -33,6 +33,9 @@ class SPStorkPresentationController: UIPresentationController, UIGestureRecogniz
     var customHeight: CGFloat? = nil
     var translateForDismiss: CGFloat = 200
     var hapticMoments: [SPStorkHapticMoments] = [.willDismissIfRelease]
+    var dismissVelocity: CGFloat = 1000
+    var fullScreen: Bool = false
+    var shouldVerifyHeight: Bool = true
     
     var transitioningDelegate: SPStorkTransitioningDelegate?
     weak var storkDelegate: SPStorkControllerDelegate?
@@ -87,8 +90,10 @@ class SPStorkPresentationController: UIPresentationController, UIGestureRecogniz
         let maxHeight: CGFloat = containerView.bounds.height - baseY
         var height: CGFloat = maxHeight
         
-        if let customHeight = self.customHeight {
-            if customHeight < maxHeight {
+        if fullScreen {
+            height = containerView.bounds.height
+        } else if let customHeight = self.customHeight {
+            if customHeight < maxHeight || !shouldVerifyHeight {
                 height = customHeight
             } else {
                 print("SPStorkController - Custom height change to default value. Your height more maximum value")
@@ -414,7 +419,8 @@ extension SPStorkPresentationController {
                 })
             }
             
-            if translation >= self.translateForDismiss {
+            let velocity = gestureRecognizer.velocity(in: presentedView).y
+            if translation >= self.translateForDismiss || velocity >= self.dismissVelocity {
                 self.dismissWithConfirmation(prepare: toDefault, completion: {
                     self.storkDelegate?.didDismissStorkBySwipe?()
                 })

@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name          = "SPStorkController"
-  s.version       = "1.8.4"
+  s.version       = "1.8.4.1"
   s.summary       = "Very similar to the controllers displayed in Apple Music, Podcasts and Mail Apple's applications."
   s.homepage      = "https://github.com/varabeis/SPStorkController"
   s.source        = { :git => "https://github.com/varabeis/SPStorkController.git", :tag => s.version }
